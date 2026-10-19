@@ -9,49 +9,48 @@
     ViewData["Title"] = "Partidos";
 
 }
-@{
-    var current = (MatchStatus?)ViewBag.CurrentStatus;
-    var currentSearch = ViewBag.CurrentSearch as string;
-}
 
-@* Search form: GET method so the search text goes into the URL (?search=...) *@
-<form asp-action="Index" method="get" class="d-flex gap-2 mb-3" style="max-width: 560px;">
-    @* Hidden field keeps the active status filter when searching *@
-    @if (current.HasValue)
-    {
-        <input type="hidden" name="status" value="@current.Value" />
-    }
-    @* The value keeps the searched text in the input after searching *@
-    <input type="text" name="search" value="@currentSearch"
-           class="form-control" placeholder="Buscar equipo..." />
-    <button type="submit" class="btn btn-success">Buscar</button>
-</form>
+@{ 
 
-@* Status filters: each link keeps the active search text *@
-<div class="d-flex gap-2 flex-wrap mb-4">
-    <a asp-action="Index" asp-route-search="@currentSearch"
-       class="btn btn-sm @(current is null ? "btn-success" : "btn-outline-success")">Todos</a>
-    <a asp-action="Index" asp-route-status="@MatchStatus.Scheduled" asp-route-search="@currentSearch"
-       class="btn btn-sm @(current == MatchStatus.Scheduled ? "btn-success" : "btn-outline-success")">Programados</a>
-    <a asp-action="Index" asp-route-status="@MatchStatus.InProgress" asp-route-search="@currentSearch"
-       class="btn btn-sm @(current == MatchStatus.InProgress ? "btn-success" : "btn-outline-success")">En juego</a>
-    <a asp-action="Index" asp-route-status="@MatchStatus.Finished" asp-route-search="@currentSearch"
-       class="btn btn-sm @(current == MatchStatus.Finished ? "btn-success" : "btn-outline-success")">Finalizados</a>
-</div>
+    var current = (MatchStatus?)ViewBag.CurrentStatus; 
 
-@* No results message: only shown when there is a search text and no matches *@
-@if (!Model.Any() && !string.IsNullOrWhiteSpace(currentSearch))
-{
-    <div class="text-center py-5">
-        <h1 class="display-1">🔍</h1>
-        <h3>No hay partidos para “@(currentSearch)”</h3>
-        <p class="text-muted">Revisa el nombre del equipo o prueba con otra búsqueda.</p>
-        @* Link without parameters goes back to the full match board *@
-        <a asp-action="Index" class="btn btn-success">Volver a la cartelera de partidos</a>
-    </div>
-}
+} 
 
+<div class="d-flex gap-2 flex-wrap mb-4"> 
 
+    <a asp-action="Index" 
+
+       class="btn btn-sm @(current is null ? "btn-success" : "btn-outline-success")"> 
+
+        Todos 
+
+    </a> 
+
+    <a asp-action="Index" asp-route-status="@MatchStatus.Scheduled" 
+
+       class="btn btn-sm @(current == MatchStatus.Scheduled ? "btn-success" : "btn-outline-success")"> 
+
+        Programados 
+
+    </a> 
+
+    <a asp-action="Index" asp-route-status="@MatchStatus.InProgress" 
+
+       class="btn btn-sm @(current == MatchStatus.InProgress ? "btn-success" : "btn-outline-success")"> 
+
+        En juego 
+
+    </a> 
+
+    <a asp-action="Index" asp-route-status="@MatchStatus.Finished" 
+
+       class="btn btn-sm @(current == MatchStatus.Finished ? "btn-success" : "btn-outline-success")"> 
+
+        Finalizados 
+
+    </a> 
+
+</div> 
  
 
 <div class="d-flex justify-content-between align-items-center mb-4"> 
